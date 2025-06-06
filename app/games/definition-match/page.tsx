@@ -1,0 +1,189 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { useWordStore, type Word } from "@/lib/word-store"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowLeft, Check, X } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+
+export default function DefinitionMatch() {
+  const { getRandomWords, words, isLoaded } = useWordStore()
+  const [gameWords, setGameWords] = useState<Word[]>([])
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [options, setOptions] = useState<{ definition: string; isCorrect: boolean }[]>([])
+  const [selectedOption, setSelectedOption] = useState<number | null>(null)
+  const [score, setScore] = useState(0)
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
+
+  const GAME_SIZE = 5
+  const OPTIONS_COUNT = 4
+
+  useEffect(() => {
+    if (isLoaded && words.length >= OPTIONS_COUNT) {
+      startGame()
+    }
+  }, [isLoaded])
+
+  const startGame = () => {
+    const selectedWords = getRandomWords(GAME_SIZE)
+    setGameWords(selectedWords)
+    setCurrentWordIndex(0)
+    setScore(0)
+    setSelectedOption(null)
+    setShowFeedback(false)
+    setGameOver(false)
+    generateOptions(selectedWords, 0)
+  }
+
+  const generateOptions = (gameWords: Word[], index: number) => {
+    const currentWord = gameWords[index]
+    const correctOption = { definition: currentWord.definition, isCorrect: true }
+
+    // Get other random words for incorrect options
+    const otherWords = words
+      .filter((w) => w.id !== currentWord.id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, OPTIONS_COUNT - 1)
+      .map((w) => ({ definition: w.definition, isCorrect: false }))
+
+    // Combine and shuffle options
+    const allOptions = [correctOption, ...otherWords].sort(() => 0.5 - Math.random())
+    setOptions(allOptions)
+  }
+
+  const handleOptionSelect = (index: number) => {
+    if (showFeedback) return
+
+    setSelectedOption(index)
+    setShowFeedback(true)
+
+    if (options[index].isCorrect) {
+      setScore(score + 1)
+    }
+
+    setTimeout(() => {
+      setShowFeedback(false)
+      setSelectedOption(null)
+
+      if (currentWordIndex < gameWords.length - 1) {
+        setCurrentWordIndex(currentWordIndex + 1)
+        generateOptions(gameWords, currentWordIndex + 1)
+      } else {
+        setGameOver(true)
+      }
+    }, 1500)
+  }
+
+  if (!isLoaded) {
+    return <div className="container mx-auto p-8 text-center">Loading...</div>
+  }
+
+  if (words.length < OPTIONS_COUNT) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Link href="/">
+          <Button variant="ghost" size="sm" className="mb-6">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Games
+          </Button>
+        </Link>
+
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Not Enough Words</CardTitle>
+            <CardDescription>You need at least {OPTIONS_COUNT} words to play Definition Match.</CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Link href="/words/manage" className="w-full">
+              <Button className="w-full">Add More Words</Button>
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <Link href="/">
+          <Button variant="ghost" size="sm">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Games
+          </Button>
+        </Link>
+        <Badge variant="outline" className="text-sm">
+          Score: {score}/{GAME_SIZE}
+        </Badge>
+      </div>
+
+      {!gameOver ? (
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <CardTitle className="text-center">Definition Match</CardTitle>
+            <CardDescription className="text-center">Match the word with its correct definition</CardDescription>
+            <Progress value={(currentWordIndex / GAME_SIZE) * 100} className="mt-2" />
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="bg-primary/10 p-6 rounded-lg text-center">
+              <h2 className="text-3xl font-bold">{gameWords[currentWordIndex]?.term}</h2>
+            </div>
+
+            <div className="space-y-3">
+              {options.map((option, index) => (
+                <Button
+                  key={index}
+                  variant={selectedOption === index ? (option.isCorrect ? "default" : "destructive") : "outline"}
+                  className={`w-full justify-start p-4 h-auto text-left ${
+                    showFeedback && option.isCorrect ? "ring-2 ring-green-500" : ""
+                  }`}
+                  onClick={() => handleOptionSelect(index)}
+                  disabled={showFeedback}
+                >
+                  <div className="flex items-center w-full">
+                    <span className="flex-1">{option.definition}</span>
+                    {showFeedback &&
+                      selectedOption === index &&
+                      (option.isCorrect ? (
+                        <Check className="h-5 w-5 ml-2 text-green-500" />
+                      ) : (
+                        <X className="h-5 w-5 ml-2" />
+                      ))}
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="text-center">Game Over!</CardTitle>
+            <CardDescription className="text-center">
+              You scored {score} out of {GAME_SIZE}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center">
+            {score === GAME_SIZE ? (
+              <p className="text-lg font-medium text-green-500">Perfect score! Amazing job!</p>
+            ) : score >= GAME_SIZE / 2 ? (
+              <p className="text-lg font-medium">Good job! Keep practicing to improve.</p>
+            ) : (
+              <p className="text-lg font-medium">Keep practicing to learn these words better.</p>
+            )}
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button variant="outline" asChild>
+              <Link href="/">Back to Games</Link>
+            </Button>
+            <Button onClick={startGame}>Play Again</Button>
+          </CardFooter>
+        </Card>
+      )}
+    </div>
+  )
+}

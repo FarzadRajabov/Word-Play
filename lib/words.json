@@ -1,0 +1,494 @@
+[
+  {
+    "id": "1",
+    "term": "ubiquitous",
+    "definition": "present, appearing, or found everywhere",
+    "synonyms": ["omnipresent", "universal", "pervasive"],
+    "antonyms": ["rare", "scarce", "uncommon"],
+    "examples": [
+      "Mobile phones are now ubiquitous in modern society.",
+      "The internet has become ubiquitous in our daily lives."
+    ]
+  },
+  {
+    "id": "2",
+    "term": "ephemeral",
+    "definition": "lasting for a very short time",
+    "synonyms": ["fleeting", "transitory", "momentary"],
+    "antonyms": ["permanent", "enduring", "everlasting"],
+    "examples": [
+      "The beauty of cherry blossoms is ephemeral.",
+      "Fame can be ephemeral in the entertainment industry."
+    ]
+  },
+  {
+    "id": "3",
+    "term": "pragmatic",
+    "definition": "dealing with things sensibly and realistically",
+    "synonyms": ["practical", "realistic", "sensible"],
+    "antonyms": ["idealistic", "impractical", "unrealistic"],
+    "examples": [
+      "We need a pragmatic approach to solve this problem.",
+      "She's known for her pragmatic leadership style."
+    ]
+  },
+  {
+    "id": "4",
+    "term": "ambiguous",
+    "definition": "open to more than one interpretation",
+    "synonyms": ["unclear", "vague", "equivocal"],
+    "antonyms": ["clear", "definite", "unambiguous"],
+    "examples": [
+      "The instructions were ambiguous and confusing.",
+      "His response was ambiguous, leaving us uncertain."
+    ]
+  },
+  {
+    "id": "5",
+    "term": "meticulous",
+    "definition": "showing great attention to detail; very careful and precise",
+    "synonyms": ["thorough", "precise", "careful"],
+    "antonyms": ["careless", "sloppy", "negligent"],
+    "examples": [
+      "She is meticulous about keeping records.",
+      "The artist's meticulous attention to detail was impressive."
+    ]
+  },
+  {
+    "id": "6",
+    "term": "serendipity",
+    "definition": "the occurrence of events by chance in a happy or beneficial way",
+    "synonyms": ["fluke", "chance", "fortune"],
+    "antonyms": ["misfortune", "bad luck", "calamity"],
+    "examples": [
+      "Finding the book was pure serendipity.",
+      "Their meeting was a result of serendipity."
+    ]
+  },
+  {
+    "id": "7",
+    "term": "candid",
+    "definition": "truthful and straightforward; frank",
+    "synonyms": ["honest", "open", "forthright"],
+    "antonyms": ["deceitful", "guarded", "insincere"],
+    "examples": [
+      "She gave a candid interview about her experiences.",
+      "His candid feedback was appreciated."
+    ]
+  },
+  {
+    "id": "8",
+    "term": "lucid",
+    "definition": "expressed clearly; easy to understand",
+    "synonyms": ["clear", "intelligible", "comprehensible"],
+    "antonyms": ["confusing", "obscure", "ambiguous"],
+    "examples": [
+      "His explanation was lucid and to the point.",
+      "She remained lucid despite her illness."
+    ]
+  },
+  {
+    "id": "9",
+    "term": "tenacious",
+    "definition": "tending to keep a firm hold of something; persistent",
+    "synonyms": ["persistent", "determined", "dogged"],
+    "antonyms": ["yielding", "weak", "irresolute"],
+    "examples": [
+      "Her tenacious spirit helped her overcome obstacles.",
+      "He is tenacious in pursuing his goals."
+    ]
+  },
+  {
+    "id": "10",
+    "term": "altruistic",
+    "definition": "showing a disinterested and selfless concern for the well-being of others",
+    "synonyms": ["selfless", "unselfish", "benevolent"],
+    "antonyms": ["selfish", "egotistical", "self-centered"],
+    "examples": [
+      "Her altruistic actions inspired many.",
+      "He is known for his altruistic nature."
+    ]
+  },
+  {
+    "id": "11",
+    "term": "quintessential",
+    "definition": "representing the most perfect or typical example of a quality or class",
+    "synonyms": ["typical", "classic", "model"],
+    "antonyms": ["atypical", "abnormal", "uncharacteristic"],
+    "examples": [
+      "He is the quintessential gentleman.",
+      "This dish is the quintessential Italian meal."
+    ]
+  },
+  {
+    "id": "12",
+    "term": "gregarious",
+    "definition": "fond of company; sociable",
+    "synonyms": ["sociable", "outgoing", "friendly"],
+    "antonyms": ["reserved", "shy", "unsociable"],
+    "examples": [
+      "She is a gregarious and outgoing person.",
+      "Gregarious animals live in groups."
+    ]
+  },
+  {
+    "id": "13",
+    "term": "ineffable",
+    "definition": "too great or extreme to be expressed or described in words",
+    "synonyms": ["indescribable", "inexpressible", "unspeakable"],
+    "antonyms": ["describable", "expressible", "definable"],
+    "examples": [
+      "The beauty of the sunset was ineffable.",
+      "He felt an ineffable joy."
+    ]
+  },
+  {
+    "id": "14",
+    "term": "resilient",
+    "definition": "able to withstand or recover quickly from difficult conditions",
+    "synonyms": ["tough", "flexible", "hardy"],
+    "antonyms": ["fragile", "vulnerable", "weak"],
+    "examples": [
+      "Children are often very resilient.",
+      "The community was resilient after the disaster."
+    ]
+  },
+  {
+    "id": "15",
+    "term": "ambivalent",
+    "definition": "having mixed feelings or contradictory ideas about something or someone",
+    "synonyms": ["uncertain", "unsure", "conflicted"],
+    "antonyms": ["certain", "decisive", "clear"],
+    "examples": [
+      "She felt ambivalent about her new job.",
+      "His ambivalent attitude confused his friends."
+    ]
+  },
+  {
+    "id": "16",
+    "term": "eloquent",
+    "definition": "fluent or persuasive in speaking or writing",
+    "synonyms": ["articulate", "expressive", "persuasive"],
+    "antonyms": ["inarticulate", "unexpressive", "tongue-tied"],
+    "examples": [
+      "She gave an eloquent speech.",
+      "His eloquent writing moved the audience."
+    ]
+  },
+  {
+    "id": "17",
+    "term": "fortuitous",
+    "definition": "happening by a lucky chance; fortunate",
+    "synonyms": ["lucky", "serendipitous", "unexpected"],
+    "antonyms": ["unlucky", "predictable", "intentional"],
+    "examples": [
+      "Their encounter was purely fortuitous.",
+      "It was a fortuitous turn of events."
+    ]
+  },
+  {
+    "id": "18",
+    "term": "magnanimous",
+    "definition": "very generous or forgiving, especially toward a rival or someone less powerful",
+    "synonyms": ["generous", "charitable", "forgiving"],
+    "antonyms": ["petty", "mean", "vindictive"],
+    "examples": [
+      "He was magnanimous in victory.",
+      "Her magnanimous gesture surprised everyone."
+    ]
+  },
+  {
+    "id": "19",
+    "term": "obfuscate",
+    "definition": "to render obscure, unclear, or unintelligible",
+    "synonyms": ["confuse", "blur", "muddy"],
+    "antonyms": ["clarify", "illuminate", "explain"],
+    "examples": [
+      "The report was designed to obfuscate the real issues.",
+      "Technical jargon can obfuscate meaning."
+    ]
+  },
+  {
+    "id": "20",
+    "term": "paradigm",
+    "definition": "a typical example or pattern of something; a model",
+    "synonyms": ["model", "pattern", "example"],
+    "antonyms": ["anomaly", "exception", "deviation"],
+    "examples": [
+      "The company is seen as a paradigm of success.",
+      "This theory represents a new paradigm."
+    ]
+  },
+  {
+    "id": "21",
+    "term": "cathartic",
+    "definition": "providing psychological relief through the open expression of strong emotions",
+    "synonyms": ["purifying", "cleansing", "therapeutic"],
+    "antonyms": ["suppressive", "restraining", "inhibiting"],
+    "examples": [
+      "Crying can be a cathartic experience.",
+      "The play had a cathartic effect on the audience."
+    ]
+  },
+  {
+    "id": "22",
+    "term": "juxtapose",
+    "definition": "to place or deal with close together for contrasting effect",
+    "synonyms": ["contrast", "compare", "pair"],
+    "antonyms": ["separate", "isolate", "divide"],
+    "examples": [
+      "The exhibition juxtaposes modern art with classical art.",
+      "They juxtaposed the two ideas for effect."
+    ]
+  },
+  {
+    "id": "23",
+    "term": "idiosyncratic",
+    "definition": "relating to idiosyncrasy; peculiar or individual",
+    "synonyms": ["distinctive", "quirky", "peculiar"],
+    "antonyms": ["common", "normal", "typical"],
+    "examples": [
+      "His idiosyncratic style made him stand out.",
+      "She has an idiosyncratic way of speaking."
+    ]
+  },
+  {
+    "id": "24",
+    "term": "cogent",
+    "definition": "clear, logical, and convincing",
+    "synonyms": ["convincing", "persuasive", "compelling"],
+    "antonyms": ["unconvincing", "weak", "ineffective"],
+    "examples": [
+      "She presented a cogent argument.",
+      "His explanation was cogent and concise."
+    ]
+  },
+  {
+    "id": "25",
+    "term": "esoteric",
+    "definition": "intended for or likely to be understood by only a small number of people",
+    "synonyms": ["obscure", "arcane", "cryptic"],
+    "antonyms": ["common", "familiar", "known"],
+    "examples": [
+      "The lecture was full of esoteric knowledge.",
+      "Quantum physics can seem esoteric to many."
+    ]
+  },
+  {
+    "id": "26",
+    "term": "ameliorate",
+    "definition": "to make something bad or unsatisfactory better",
+    "synonyms": ["improve", "enhance", "alleviate"],
+    "antonyms": ["worsen", "aggravate", "exacerbate"],
+    "examples": [
+      "Measures were taken to ameliorate the situation.",
+      "He tried to ameliorate her discomfort."
+    ]
+  },
+  {
+    "id": "27",
+    "term": "circumspect",
+    "definition": "wary and unwilling to take risks",
+    "synonyms": ["cautious", "prudent", "careful"],
+    "antonyms": ["reckless", "careless", "rash"],
+    "examples": [
+      "She was circumspect in her decision-making.",
+      "He is circumspect about investing money."
+    ]
+  },
+  {
+    "id": "28",
+    "term": "dichotomy",
+    "definition": "a division or contrast between two things that are or are represented as being opposed or entirely different",
+    "synonyms": ["contrast", "division", "split"],
+    "antonyms": ["unity", "agreement", "similarity"],
+    "examples": [
+      "There is a dichotomy between theory and practice.",
+      "The novel explores the dichotomy of good and evil."
+    ]
+  },
+  {
+    "id": "29",
+    "term": "epiphany",
+    "definition": "a moment of sudden and great revelation or realization",
+    "synonyms": ["revelation", "insight", "realization"],
+    "antonyms": ["confusion", "ignorance", "misunderstanding"],
+    "examples": [
+      "She had an epiphany about her career.",
+      "His epiphany changed his outlook on life."
+    ]
+  },
+  {
+    "id": "30",
+    "term": "facetious",
+    "definition": "treating serious issues with deliberately inappropriate humor",
+    "synonyms": ["flippant", "glib", "joking"],
+    "antonyms": ["serious", "earnest", "sincere"],
+    "examples": [
+      "His facetious remarks were not appreciated.",
+      "She made a facetious comment during the meeting."
+    ]
+  },
+  {
+    "id": "31",
+    "term": "gregarious",
+    "definition": "fond of company; sociable",
+    "synonyms": ["sociable", "outgoing", "friendly"],
+    "antonyms": ["reserved", "shy", "unsociable"],
+    "examples": ["He is a gregarious host.", "Gregarious people enjoy parties."]
+  },
+  {
+    "id": "32",
+    "term": "harbinger",
+    "definition": "a person or thing that announces or signals the approach of another",
+    "synonyms": ["forerunner", "herald", "omen"],
+    "antonyms": ["result", "consequence", "outcome"],
+    "examples": [
+      "The robin is a harbinger of spring.",
+      "Dark clouds are a harbinger of rain."
+    ]
+  },
+  {
+    "id": "33",
+    "term": "insidious",
+    "definition": "proceeding in a gradual, subtle way, but with harmful effects",
+    "synonyms": ["stealthy", "subtle", "sneaky"],
+    "antonyms": ["harmless", "open", "benign"],
+    "examples": [
+      "The disease is insidious and difficult to detect.",
+      "Insidious rumors spread quickly."
+    ]
+  },
+  {
+    "id": "34",
+    "term": "juxtaposition",
+    "definition": "the fact of two things being seen or placed close together with contrasting effect",
+    "synonyms": ["adjacency", "proximity", "contrast"],
+    "antonyms": ["distance", "separation", "remoteness"],
+    "examples": [
+      "The juxtaposition of colors was striking.",
+      "There is a juxtaposition between old and new architecture."
+    ]
+  },
+  {
+    "id": "35",
+    "term": "kinetic",
+    "definition": "relating to or resulting from motion",
+    "synonyms": ["dynamic", "active", "moving"],
+    "antonyms": ["static", "inactive", "stationary"],
+    "examples": [
+      "Kinetic energy increases with speed.",
+      "The sculpture has a kinetic quality."
+    ]
+  },
+  {
+    "id": "36",
+    "term": "laconic",
+    "definition": "using very few words",
+    "synonyms": ["brief", "concise", "terse"],
+    "antonyms": ["verbose", "wordy", "long-winded"],
+    "examples": [
+      "His laconic reply suggested disinterest.",
+      "She is known for her laconic wit."
+    ]
+  },
+  {
+    "id": "37",
+    "term": "mellifluous",
+    "definition": "sweet or musical; pleasant to hear",
+    "synonyms": ["harmonious", "melodious", "dulcet"],
+    "antonyms": ["harsh", "grating", "discordant"],
+    "examples": [
+      "Her mellifluous voice captivated the audience.",
+      "The music was mellifluous and soothing."
+    ]
+  },
+  {
+    "id": "38",
+    "term": "nefarious",
+    "definition": "wicked, villainous, or criminal",
+    "synonyms": ["evil", "villainous", "heinous"],
+    "antonyms": ["virtuous", "honorable", "good"],
+    "examples": [
+      "The villain's nefarious plan was foiled.",
+      "He was involved in nefarious activities."
+    ]
+  },
+  {
+    "id": "39",
+    "term": "obsequious",
+    "definition": "obedient or attentive to an excessive or servile degree",
+    "synonyms": ["servile", "submissive", "fawning"],
+    "antonyms": ["assertive", "independent", "domineering"],
+    "examples": [
+      "His obsequious behavior annoyed his colleagues.",
+      "She was surrounded by obsequious assistants."
+    ]
+  },
+  {
+    "id": "40",
+    "term": "paragon",
+    "definition": "a person or thing regarded as a perfect example of a particular quality",
+    "synonyms": ["model", "exemplar", "ideal"],
+    "antonyms": ["flaw", "imperfection", "worst"],
+    "examples": [
+      "She is a paragon of virtue.",
+      "The car is a paragon of safety."
+    ]
+  },
+  {
+    "id": "41",
+    "term": "quixotic",
+    "definition": "exceedingly idealistic; unrealistic and impractical",
+    "synonyms": ["impractical", "idealistic", "romantic"],
+    "antonyms": ["pragmatic", "realistic", "sensible"],
+    "examples": [
+      "His quixotic quest was doomed to fail.",
+      "She has quixotic dreams of world peace."
+    ]
+  },
+  {
+    "id": "42",
+    "term": "recalcitrant",
+    "definition": "having an obstinately uncooperative attitude toward authority or discipline",
+    "synonyms": ["uncooperative", "defiant", "rebellious"],
+    "antonyms": ["compliant", "obedient", "submissive"],
+    "examples": [
+      "The recalcitrant student refused to follow the rules.",
+      "He was recalcitrant in the face of authority."
+    ]
+  },
+  {
+    "id": "43",
+    "term": "sagacious",
+    "definition": "having or showing keen mental discernment and good judgment",
+    "synonyms": ["wise", "shrewd", "astute"],
+    "antonyms": ["foolish", "ignorant", "unwise"],
+    "examples": [
+      "Her sagacious advice was invaluable.",
+      "He is a sagacious leader."
+    ]
+  },
+  {
+    "id": "44",
+    "term": "taciturn",
+    "definition": "reserved or uncommunicative in speech; saying little",
+    "synonyms": ["reserved", "silent", "reticent"],
+    "antonyms": ["talkative", "loquacious", "garrulous"],
+    "examples": [
+      "He was a taciturn man of few words.",
+      "Her taciturn nature made her mysterious."
+    ]
+  },
+  {
+    "id": "45",
+    "term": "ubiquity",
+    "definition": "the fact of appearing everywhere or of being very common",
+    "synonyms": ["omnipresence", "pervasiveness", "universality"],
+    "antonyms": ["rarity", "scarcity", "uncommonness"],
+    "examples": [
+      "The ubiquity of smartphones is undeniable.",
+      "Social media's ubiquity shapes culture."
+    ]
+  }
+]
