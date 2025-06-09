@@ -80,10 +80,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-background animate-fade-in">
-        <div
-          className="animate-spin rounded-full h-16 w-16 border-t-4 bor
-        der-blue-500 border-solid mb-6"
-        ></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-6"></div>
         <h1 className="text-3xl font-bold text-primary flex items-baseline gap-2">
           WordPlay
           <span className="text-xs text-muted-foreground font-normal mt-1">
