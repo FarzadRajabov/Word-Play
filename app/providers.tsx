@@ -4,7 +4,6 @@ import { useEffect, useState, createContext, useContext } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 
-// Create a context to provide the user/session globally
 export const UserContext = createContext<{ user: any }>({ user: null });
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -12,32 +11,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const handleOAuthRedirect = async () => {
-      if (
-        typeof window !== "undefined" &&
-        window.location.hash.includes("access_token")
-      ) {
-        // Extract the access_token from the URL fragment
-        const hashParams = new URLSearchParams(
-          window.location.hash.substring(1)
-        );
-        const accessToken = hashParams.get("access_token");
-        // Exchange the OAuth code in URL fragment for a session
-        const { data, error } = await supabase.auth.exchangeCodeForSession(
-          accessToken ?? ""
-        );
+      // If redirected from OAuth, Supabase will already have the session
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Session error:", error.message);
+      }
+      setUser(data.session?.user ?? null);
 
-        if (error) {
-          console.error("OAuth exchange error:", error.message);
-        } else {
-          setUser(data.session?.user ?? null);
-          // Clean up the URL
-          window.history.replaceState(null, "", window.location.pathname);
-        }
-      } else {
-        const { data } = await supabase.auth.getSession();
-        setUser(data.session?.user ?? null);
+      // Remove the URL fragment (optional clean-up)
+      if (window?.location.hash.includes("access_token")) {
+        window.history.replaceState(null, "", window.location.pathname);
       }
 
+      // Subscribe to auth state changes
       const { data: listener } = supabase.auth.onAuthStateChange(
         (_event, session) => {
           setUser(session?.user ?? null);
@@ -57,7 +43,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Optional: export a hook for easy access
 export function useUser() {
   return useContext(UserContext);
 }
