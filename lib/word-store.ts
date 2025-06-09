@@ -73,11 +73,16 @@ export function useWordStore() {
       .from("words")
       .select("*")
       .eq("user_id", userId);
-    if (!error && data) {
-      setWords(data);
-    } else {
-      setWords([]);
+    let userWords = !error && data ? data : [];
+    // Merge sampleWords and userWords, avoiding duplicates by term
+    const merged = [...userWords];
+    const userTerms = new Set(userWords.map((w) => w.term.toLowerCase()));
+    for (const w of sampleWords) {
+      if (!userTerms.has(w.term.toLowerCase())) {
+        merged.push(w);
+      }
     }
+    setWords(merged);
     setIsLoaded(true);
   };
 
@@ -87,6 +92,21 @@ export function useWordStore() {
       localStorage.setItem("wordplay-words", JSON.stringify(words));
     }
   }, [words, isLoaded, user]);
+
+  // Clear localStorage words if user leaves the site (not just reload or navigate within app)
+  useEffect(() => {
+    if (!user) {
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+        // Only clear if the navigation is not a soft navigation (i.e., leaving the site)
+        localStorage.removeItem("wordplay-words");
+        localStorage.removeItem("wordplay-words-version");
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [user]);
 
   // Add a new word
   const addWord = async (word: Omit<Word, "id">) => {

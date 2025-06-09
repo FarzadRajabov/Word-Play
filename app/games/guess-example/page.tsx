@@ -1,109 +1,135 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { useWordStore, type Word } from "@/lib/word-store"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Check, X } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
+"use client";
+import {
+  getCurrentUserId,
+  incrementUserPoints,
+  ensureUserProfile,
+} from "@/lib/points";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useWordStore, type Word } from "@/lib/word-store";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowLeft, Check, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 export default function GuessExample() {
-  const { getRandomWords, words, isLoaded } = useWordStore()
-  const [gameWords, setGameWords] = useState<Word[]>([])
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
-  const [options, setOptions] = useState<{term: string, isCorrect: boolean}[]>([])
-  const [selectedOption, setSelectedOption] = useState<number | null>(null)
-  const [score, setScore] = useState(0)
-  const [showFeedback, setShowFeedback] = useState(false)
-  const [gameOver, setGameOver] = useState(false)
-  const [currentExample, setCurrentExample] = useState("")
-  
-  const GAME_SIZE = 5
-  const OPTIONS_COUNT = 4
+  const { getRandomWords, words, isLoaded } = useWordStore();
+  const [gameWords, setGameWords] = useState<Word[]>([]);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [options, setOptions] = useState<
+    { term: string; isCorrect: boolean }[]
+  >([]);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [currentExample, setCurrentExample] = useState("");
+
+  const GAME_SIZE = 5;
+  const OPTIONS_COUNT = 4;
 
   useEffect(() => {
     if (isLoaded && words.length >= OPTIONS_COUNT) {
-      const wordsWithExamples = words.filter(word => word.examples.length > 0)
+      const wordsWithExamples = words.filter(
+        (word) => word.examples.length > 0
+      );
       if (wordsWithExamples.length >= GAME_SIZE) {
-        startGame(wordsWithExamples)
+        startGame(wordsWithExamples);
       }
     }
-  }, [isLoaded])
+  }, [isLoaded]);
 
   const startGame = (wordsWithExamples: Word[]) => {
     const selectedWords = wordsWithExamples
       .sort(() => 0.5 - Math.random())
-      .slice(0, GAME_SIZE)
-    
-    setGameWords(selectedWords)
-    setCurrentWordIndex(0)
-    setScore(0)
-    setSelectedOption(null)
-    setShowFeedback(false)
-    setGameOver(false)
-    generateQuestion(selectedWords, 0)
-  }
+      .slice(0, GAME_SIZE);
+
+    setGameWords(selectedWords);
+    setCurrentWordIndex(0);
+    setScore(0);
+    setSelectedOption(null);
+    setShowFeedback(false);
+    setGameOver(false);
+    generateQuestion(selectedWords, 0);
+  };
 
   const generateQuestion = (gameWords: Word[], index: number) => {
-    const currentWord = gameWords[index]
-    
+    const currentWord = gameWords[index];
+
     // Get a random example sentence
-    const exampleSentence = currentWord.examples[Math.floor(Math.random() * currentWord.examples.length)]
-    
+    const exampleSentence =
+      currentWord.examples[
+        Math.floor(Math.random() * currentWord.examples.length)
+      ];
+
     // Replace the word with a blank to hide it
     const hiddenExample = exampleSentence.replace(
-      new RegExp(`\\b${currentWord.term}\\b`, 'gi'), 
-      '________'
-    )
-    
-    setCurrentExample(hiddenExample)
-    
+      new RegExp(`\\b${currentWord.term}\\b`, "gi"),
+      "________"
+    );
+
+    setCurrentExample(hiddenExample);
+
     // Set up options
-    const correctOption = { term: currentWord.term, isCorrect: true }
-    
+    const correctOption = { term: currentWord.term, isCorrect: true };
+
     // Get other random words for incorrect options
     const otherWords = words
-      .filter(w => w.id !== currentWord.id)
+      .filter((w) => w.id !== currentWord.id)
       .sort(() => 0.5 - Math.random())
       .slice(0, OPTIONS_COUNT - 1)
-      .map(w => ({ term: w.term, isCorrect: false }))
-    
-    // Combine and shuffle options
-    const allOptions = [correctOption, ...otherWords].sort(() => 0.5 - Math.random())
-    setOptions(allOptions)
-  }
+      .map((w) => ({ term: w.term, isCorrect: false }));
 
-  const handleOptionSelect = (index: number) => {
-    if (showFeedback) return
-    
-    setSelectedOption(index)
-    setShowFeedback(true)
-    
+    // Combine and shuffle options
+    const allOptions = [correctOption, ...otherWords].sort(
+      () => 0.5 - Math.random()
+    );
+    setOptions(allOptions);
+  };
+
+  const handleOptionSelect = async (index: number) => {
+    if (showFeedback) return;
+
+    setSelectedOption(index);
+    setShowFeedback(true);
+
     if (options[index].isCorrect) {
-      setScore(score + 1)
-    }
-    
-    setTimeout(() => {
-      setShowFeedback(false)
-      setSelectedOption(null)
-      
-      if (currentWordIndex < gameWords.length - 1) {
-        setCurrentWordIndex(currentWordIndex + 1)
-        generateQuestion(gameWords, currentWordIndex + 1)
-      } else {
-        setGameOver(true)
+      setScore(score + 1);
+
+      const userId = await getCurrentUserId();
+      if (userId) {
+        await ensureUserProfile(userId);
+        await incrementUserPoints(userId);
       }
-    }, 1500)
-  }
+    }
+
+    setTimeout(() => {
+      setShowFeedback(false);
+      setSelectedOption(null);
+
+      if (currentWordIndex < gameWords.length - 1) {
+        setCurrentWordIndex(currentWordIndex + 1);
+        generateQuestion(gameWords, currentWordIndex + 1);
+      } else {
+        setGameOver(true);
+      }
+    }, 1500);
+  };
 
   if (!isLoaded) {
-    return <div className="container mx-auto p-8 text-center">Loading...</div>
+    return <div className="container mx-auto p-8 text-center">Loading...</div>;
   }
 
-  const wordsWithExamples = words.filter(word => word.examples.length > 0)
-  
+  const wordsWithExamples = words.filter((word) => word.examples.length > 0);
+
   if (wordsWithExamples.length < GAME_SIZE) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -113,12 +139,13 @@ export default function GuessExample() {
             Back to Games
           </Button>
         </Link>
-        
+
         <Card className="max-w-md mx-auto">
           <CardHeader>
             <CardTitle>Not Enough Words with Examples</CardTitle>
             <CardDescription>
-              You need at least {GAME_SIZE} words with example sentences to play Guess by Example.
+              You need at least {GAME_SIZE} words with example sentences to play
+              Guess by Example.
             </CardDescription>
           </CardHeader>
           <CardFooter>
@@ -128,7 +155,7 @@ export default function GuessExample() {
           </CardFooter>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
@@ -152,35 +179,47 @@ export default function GuessExample() {
             <CardDescription className="text-center">
               Guess the word based on how it's used in a sentence
             </CardDescription>
-            <Progress value={(currentWordIndex / GAME_SIZE) * 100} className="mt-2" />
+            <Progress
+              value={(currentWordIndex / GAME_SIZE) * 100}
+              className="mt-2"
+            />
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="bg-primary/10 p-6 rounded-lg text-center">
               <p className="text-xl">{currentExample}</p>
-              <p className="mt-4 text-sm text-muted-foreground">Which word fits in the blank?</p>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Which word fits in the blank?
+              </p>
             </div>
-            
+
             <div className="space-y-3">
               {options.map((option, index) => (
                 <Button
                   key={index}
-                  variant={selectedOption === index 
-                    ? (option.isCorrect ? "default" : "destructive") 
-                    : "outline"
+                  variant={
+                    selectedOption === index
+                      ? option.isCorrect
+                        ? "default"
+                        : "destructive"
+                      : "outline"
                   }
                   className={`w-full justify-start p-4 h-auto text-left ${
-                    showFeedback && option.isCorrect ? "ring-2 ring-green-500" : ""
+                    showFeedback && option.isCorrect
+                      ? "ring-2 ring-green-500"
+                      : ""
                   }`}
                   onClick={() => handleOptionSelect(index)}
                   disabled={showFeedback}
                 >
                   <div className="flex items-center w-full">
                     <span className="flex-1">{option.term}</span>
-                    {showFeedback && selectedOption === index && (
-                      option.isCorrect 
-                        ? <Check className="h-5 w-5 ml-2 text-green-500" /> 
-                        : <X className="h-5 w-5 ml-2" />
-                    )}
+                    {showFeedback &&
+                      selectedOption === index &&
+                      (option.isCorrect ? (
+                        <Check className="h-5 w-5 ml-2 text-green-500" />
+                      ) : (
+                        <X className="h-5 w-5 ml-2" />
+                      ))}
                   </div>
                 </Button>
               ))}
@@ -196,7 +235,9 @@ export default function GuessExample() {
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex flex-col gap-2">
-            <Button onClick={() => startGame(wordsWithExamples)}>Play Again</Button>
+            <Button onClick={() => startGame(wordsWithExamples)}>
+              Play Again
+            </Button>
             <Link href="/">
               <Button variant="ghost" className="w-full mt-2">
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -207,5 +248,5 @@ export default function GuessExample() {
         </Card>
       )}
     </div>
-  )
+  );
 }

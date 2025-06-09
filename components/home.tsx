@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +18,8 @@ import {
   Instagram,
 } from "lucide-react";
 import { WordLookupDemo } from "@/components/word-lookup-demo";
+import { supabase } from "@/lib/supabase";
+import { UserPoints } from "@/components/user-points";
 
 function GameCard({
   title,
@@ -50,20 +51,39 @@ function GameCard({
 }
 
 export default function Home() {
-  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    // Remove artificial loading delay for faster load
     setLoading(false);
-    setTimeout(() => setShowContent(true), 50); // trigger fade-in
+    setTimeout(() => setShowContent(true), 50);
+    // Fetch Supabase user
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user || null);
+    });
   }, []);
 
-  if (loading || status === "loading") {
+  const handleSignIn = async (provider: "github" | "google") => {
+    await supabase.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: window.location.origin },
+    });
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.reload();
+  };
+
+  if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-background animate-fade-in">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-6"></div>
+        <div
+          className="animate-spin rounded-full h-16 w-16 border-t-4 bor
+        der-blue-500 border-solid mb-6"
+        ></div>
         <h1 className="text-3xl font-bold text-primary flex items-baseline gap-2">
           WordPlay
           <span className="text-xs text-muted-foreground font-normal mt-1">
@@ -77,6 +97,7 @@ export default function Home() {
 
   return (
     <div className="relative overflow-hidden min-h-screen">
+      <UserPoints />
       {/* Gradient background at the top */}
       <div className="gradient-bg" />
       <div className="container mx-auto px-4 py-8 relative z-10">
@@ -93,12 +114,12 @@ export default function Home() {
             </p>
           </div>
           <div className="w-full flex justify-center">
-            {session ? (
+            {user ? (
               <div className="flex items-center gap-4">
-                <span className="text-white">{session.user?.email}</span>
+                <span className="text-white">{user.email}</span>
                 <Button
-                  onClick={() => signOut()}
-                  className="bg-black text-white border border-pink-500 border-[1.5px] hover:bg-pink-500 hover:text-black transition-colors"
+                  onClick={handleSignOut}
+                  className="bg-black text-white border-pink-500 border-[1.5px] hover:bg-pink-500 hover:text-black transition-colors"
                 >
                   Sign out
                 </Button>
@@ -106,15 +127,15 @@ export default function Home() {
             ) : (
               <div className="flex gap-2">
                 <Button
-                  onClick={() => signIn("github")}
-                  className="bg-black text-white border border-blue-500 border-[1.5px] hover:bg-blue-500 hover:text-black transition-colors flex items-center gap-2"
+                  onClick={() => handleSignIn("github")}
+                  className="bg-black text-white border-blue-500 border-[1.5px] hover:bg-blue-500 hover:text-black transition-colors flex items-center gap-2"
                 >
                   <Github className="h-5 w-5" />
                   Sign in with GitHub
                 </Button>
                 <Button
-                  onClick={() => signIn("google")}
-                  className="bg-black text-white border border-red-500 border-[1.5px] hover:bg-red-500 hover:text-black transition-colors flex items-center gap-2"
+                  onClick={() => handleSignIn("google")}
+                  className="bg-black text-white border-red-500 border-[1.5px] hover:bg-red-500 hover:text-black transition-colors flex items-center gap-2"
                 >
                   <img
                     src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"

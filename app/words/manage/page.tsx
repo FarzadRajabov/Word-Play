@@ -1,7 +1,7 @@
 "use client";
-
+import { incrementUserPoints, getCurrentUserId } from "@/lib/points";
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useWordStore, type Word } from "@/lib/word-store";
 import { Button } from "@/components/ui/button";
@@ -85,7 +85,7 @@ export default function ManageWords() {
     setIsLoading(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (editingId) {
@@ -93,6 +93,12 @@ export default function ManageWords() {
       setEditingId(null);
     } else {
       addWord(formData);
+
+      // Increment user points when a new word is added
+      const userId = await getCurrentUserId();
+      if (userId) {
+        await incrementUserPoints(userId);
+      }
     }
 
     resetForm();
@@ -125,7 +131,7 @@ export default function ManageWords() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 relative">
       <div className="flex items-center mb-6">
         <Link href="/">
           <Button variant="ghost" size="sm" className="mr-4">
