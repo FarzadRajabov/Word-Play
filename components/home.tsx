@@ -94,8 +94,8 @@ export default function Home() {
 
   return (
     <div className="relative overflow-hidden min-h-screen">
-      {/* Mobile navbar: points left, WordPlay right */}
-      <nav className="flex items-center justify-between md:hidden px-4 pt-4 mb-4">
+      {/* Mobile navbar: points left, WordPlay right, points fixed at top */}
+      <nav className="flex items-center justify-between md:hidden px-4 pt-4 mb-4 fixed top-0 left-0 right-0 bg-background z-50 border-b border-border h-16">
         <div>
           <UserPoints />
         </div>
@@ -103,6 +103,7 @@ export default function Home() {
           WordPlay
         </h1>
       </nav>
+      <div className="h-16 md:hidden" /> {/* Spacer for fixed navbar */}
       {/* Desktop: fixed points, header as before */}
       <div className="hidden md:block">
         <UserPoints />
