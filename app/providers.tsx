@@ -4,54 +4,55 @@ import { useEffect, useState, createContext, useContext } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 
-export const UserContext = createContext<{ user: any }>({ user: null });
+// Global user context
+export const UserContext = createContext<{ user: User | null }>({ user: null });
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
+
     const handleOAuthRedirect = async () => {
+      if (typeof window === "undefined") return;
+
+      const url = new URL(window.location.href);
+
       // Handle PKCE OAuth (code in query string)
-      if (
-        typeof window !== "undefined" &&
-        window.location.search.includes("code=")
-      ) {
-        const url = new URL(window.location.href);
+      if (url.searchParams.has("code")) {
         const code = url.searchParams.get("code");
-        if (code) {
-          try {
-            // Try to exchange code for session (Supabase PKCE flow)
-            // @ts-ignore: exchangeCodeForSession may not be typed in all versions
-            const { data, error } = await supabase.auth.exchangeCodeForSession({
-              code,
-            });
-            if (error) {
-              console.error("OAuth exchange error:", error.message);
-            } else {
-              setUser(data.session?.user ?? null);
-              window.history.replaceState(null, "", window.location.pathname);
-            }
-          } catch (e) {
-            console.error("exchangeCodeForSession error:", e);
+        try {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(
+            code!
+          );
+          if (error) {
+            console.error("OAuth exchange error:", error.message);
+          } else {
+            setUser(data.session?.user ?? null);
+            // Clean URL
+            window.history.replaceState(null, "", window.location.pathname);
           }
+        } catch (err) {
+          console.error("exchangeCodeForSession failed:", err);
         }
-      } else {
-        // Fallback: check for access_token in hash (implicit flow)
-        if (
-          typeof window !== "undefined" &&
-          window.location.hash.includes("access_token")
-        ) {
-          // Let Supabase process the hash (if needed)
-          // Most modern setups use PKCE, so this is rare
-          window.history.replaceState(null, "", window.location.pathname);
-        }
-        // Always try to get the session
+      }
+
+      // Retry session fetch (in case it's not ready instantly)
+      let tries = 0;
+      while (tries < 10) {
         const { data, error } = await supabase.auth.getSession();
         if (error) {
-          console.error("Session error:", error.message);
+          console.error("getSession error:", error.message);
+          break;
         }
-        setUser(data.session?.user ?? null);
+
+        if (data.session?.user) {
+          setUser(data.session.user);
+          break;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        tries++;
       }
 
       // Subscribe to auth state changes
@@ -60,10 +61,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
           setUser(session?.user ?? null);
         }
       );
+
       unsubscribe = () => listener?.subscription?.unsubscribe?.();
     };
 
     handleOAuthRedirect();
+
     return () => {
       if (unsubscribe) unsubscribe();
     };
@@ -74,6 +77,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Optional user hook
 export function useUser() {
   return useContext(UserContext);
 }
