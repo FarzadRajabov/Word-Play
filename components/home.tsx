@@ -94,7 +94,13 @@ export default function Home() {
 
   return (
     <div className="relative overflow-hidden min-h-screen">
-      <UserPoints />
+      {/* UserPoints: fixed for desktop, static for mobile */}
+      <div className="md:block hidden">
+        <UserPoints />
+      </div>
+      <div className="block md:hidden pt-2 px-2">
+        <UserPoints />
+      </div>
       {/* Gradient background at the top */}
       <div className="gradient-bg" />
       <div className="container mx-auto px-4 py-8 relative z-10">
