@@ -11,8 +11,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // This will process the OAuth hash in the URL and set the session
-    supabase.auth.getSession();
+    // Process the OAuth hash and set the session
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+    });
+    // Listen for auth state changes (login, logout, etc.)
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+    return () => {
+      listener?.subscription?.unsubscribe?.();
+    };
   }, []);
 
   return (
