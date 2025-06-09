@@ -94,11 +94,17 @@ export default function Home() {
 
   return (
     <div className="relative overflow-hidden min-h-screen">
-      {/* UserPoints: fixed for desktop, static for mobile */}
-      <div className="md:block hidden">
-        <UserPoints />
-      </div>
-      <div className="block md:hidden pt-2 px-2">
+      {/* Mobile navbar: points left, WordPlay right */}
+      <nav className="flex items-center justify-between md:hidden px-4 pt-4 mb-4">
+        <div>
+          <UserPoints />
+        </div>
+        <h1 className="text-2xl font-bold tracking-tight text-primary text-right">
+          WordPlay
+        </h1>
+      </nav>
+      {/* Desktop: fixed points, header as before */}
+      <div className="hidden md:block">
         <UserPoints />
       </div>
       {/* Gradient background at the top */}
